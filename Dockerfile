@@ -1,5 +1,5 @@
 # Base the image on Debian as it's pretty small
-# Version 0.1.0
+# Version 0.2.0
 FROM debian
 MAINTAINER Srini <srini@sdnhub.org>
 
@@ -18,9 +18,9 @@ WORKDIR /root
 
 # Install ONOS
 RUN mkdir onos && \
-   wget http://sdnhub.org/downloads/tutorials/onos/onos-1.1.0.ubuntu.tar.gz && \
-   tar -xf onos-1.1.0.ubuntu.tar.gz -C onos --strip-components=1 && \
-   rm -rf onos-1.1.0.ubuntu.tar.gz
+   wget http://sdnhub.org/downloads/tutorials/onos/onos-1.1.0-rc2.ubuntu.tar.gz && \
+   tar -xf onos-1.1.0-rc2.ubuntu.tar.gz -C onos --strip-components=1 && \
+   rm -rf onos-1.1.0-rc2.ubuntu.tar.gz
 
 # Set the environment variables
 ENV HOME /root
@@ -28,12 +28,12 @@ ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
 ENV ONOS_NIC 172.17.*.*
 ENV ONOS_ROOT /root/onos
 ENV KARAF_VERSION 3.0.2
-ENV KARAF_ROOT /root/onos/apache-karaf-3.0.2
-ENV KARAF_LOG /root/onos/apache-karaf-3.0.2/data/log/karaf.log
+ENV KARAF_ROOT /root/onos/apache-karaf-3.0.3
+ENV KARAF_LOG /root/onos/apache-karaf-3.0.3/data/log/karaf.log
 ENV PATH $PATH:$KARAF_ROOT/bin
 
 # Update the hazelcast xml
-RUN sed -i "s/172.17.\*.\*/$ONOS_NIC/g" ${ONOS_ROOT}/apache-karaf-3.0.2/etc/hazelcast.xml
+RUN sed -i "s/172.17.\*.\*/$ONOS_NIC/g" ${ONOS_ROOT}/apache-karaf-3.0.3/etc/hazelcast.xml
 
 # Ports
 # 6633 - OpenFlow
@@ -43,4 +43,3 @@ EXPOSE 6633 5701
 # Get ready to run command
 WORKDIR /root/onos
 CMD ["./bin/onos-service"]
-
